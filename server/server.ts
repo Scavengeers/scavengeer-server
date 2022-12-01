@@ -1,21 +1,20 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const Game = require("./model/game");
-require("dotenv").config();
+import express, { Express } from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import postGame from "./routes/game.controller";
 
+dotenv.config();
 const uri = process.env.MONGO_URI;
 
-function setupServer() {
-  const app = express();
+const setupServer: Function = () => {
+  const app: Express = express();
 
   //middlewares
   app.use(express.json());
+  app.use("/edit", postGame);
 
   //mongoose connection
-  mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  mongoose.connect(uri);
 
   const connection = mongoose.connection;
   connection.once("open", () => {
@@ -23,6 +22,6 @@ function setupServer() {
   });
 
   return app;
-}
+};
 
-module.exports = setupServer;
+export default setupServer;

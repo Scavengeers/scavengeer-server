@@ -1,17 +1,18 @@
 import express, { Express, Request, Response } from "express";
 import * as dotenv from "dotenv";
-const setupServer = require("./server");
+import setupServer from "./server";
 
 dotenv.config();
 
 let server: Express = setupServer();
+const port = process.env.PORT || 2000;
 
-const port = process.env.PORT || 8080;
-
-server.get("/", (req: Request, res: Response) => {
-  res.send("The server is going completely :)");
-});
-
-server.listen(port, () => {
-  console.log(`Server is running at https://localhost:${port}`);
-});
+(() => {
+  try {
+    server.listen(port, () => {
+      console.log(`Server is running at http://localhost:${port}`);
+    });
+  } catch (err) {
+    console.error("server failed:" + err);
+  }
+})();

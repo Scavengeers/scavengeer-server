@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const gameDocument = new Schema({
+const GameSchema = new Schema({
   _id: Schema.Types.ObjectId,
   titleOfGame: {
     type: String,
@@ -56,4 +56,4 @@ const gameDocument = new Schema({
   // ],
 });
 
-module.exports = mongoose.model("Games", gameDocument);
+export default mongoose.model("Games", GameSchema);
