@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from "express";
-import setupServer from "./server";
 import * as dotenv from "dotenv";
+const setupServer = require("./server");
 
 dotenv.config();
 
