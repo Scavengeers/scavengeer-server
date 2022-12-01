@@ -14,6 +14,7 @@ const postGame = async (req: Request, res: Response) => {
       isPrivate: isPrivate,
       gameModules: gameModules,
     });
+
     const savedGame = await newGame.save();
     res.status(201).json({ success: true, data: savedGame });
   } catch (err) {

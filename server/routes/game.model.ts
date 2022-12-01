@@ -33,27 +33,6 @@ const GameSchema = new Schema({
 
   dateCreated: { type: Date, default: Date.now },
   dateUpdated: { type: Date, default: Date.now },
-
-  // sessions: [
-  //   new Schema({
-  //     _id: Schema.Types.ObjectId,
-  //     uId: String,
-  //     nameOfPlayer: String,
-  //     startTime: { type: Date, default: Date.now },
-  //     endTime: { type: Date, default: Date.now },
-  //     duration: startTime - endTime,
-  //   }),
-  // ],
-
-  // metaData: [
-  //   new Schema({
-  //     _id: Schema.Types.ObjectId,
-  //     sessionId: String,
-  //     startLocation: String,
-  //     endtLocation: String,
-  //     device: String,
-  //   }),
-  // ],
 });
 
 export default mongoose.model("Games", GameSchema);
