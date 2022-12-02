@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const GameSchema = new Schema({
-  _id: Schema.Types.ObjectId,
+  // _id: Schema.Types.ObjectId,
   titleOfGame: {
     type: String,
     required: true,
@@ -18,7 +18,7 @@ const GameSchema = new Schema({
 
   gameModules: [
     new Schema({
-      _id: Schema.Types.ObjectId,
+      // _id: Schema.Types.ObjectId,
       typeOfModule: String,
       title: {
         type: String,
@@ -35,4 +35,5 @@ const GameSchema = new Schema({
   dateUpdated: { type: Date, default: Date.now },
 });
 
-export default mongoose.model("Games", GameSchema);
+export default mongoose.models.GameSchema ||
+  mongoose.model("GameSchema", GameSchema);

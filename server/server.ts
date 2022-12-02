@@ -1,7 +1,8 @@
-import express, { Express } from "express";
+import express, { Express, Request, Response } from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import postGame from "./routes/game.controller";
+const { postGame, getAll } = require("./routes/game.controller");
+const GameSchema = require("./routes/game.model");
 
 dotenv.config();
 const uri = process.env.MONGO_URI;
@@ -11,7 +12,8 @@ const setupServer: Function = () => {
 
   //middlewares
   app.use(express.json());
-  app.use("/edit", postGame);
+  app.post("/edit", postGame);
+  app.get("/test", getAll);
 
   //mongoose connection
   mongoose.connect(uri);
