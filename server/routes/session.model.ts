@@ -10,4 +10,4 @@ const SessionSchema = new Schema({
 });
 
 export default mongoose.models.SessionSchema ||
-  mongoose.model("GameSchema", SessionSchema);
+  mongoose.model("SessionSchema", SessionSchema);

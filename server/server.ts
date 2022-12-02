@@ -1,8 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-const { postGame, getAll } = require("./routes/game.controller");
-const GameSchema = require("./routes/game.model");
+const { postGame, getAll, getGamesById } = require("./routes/game.controller");
 
 dotenv.config();
 const uri = process.env.MONGO_URI;
@@ -14,6 +13,7 @@ const setupServer: Function = () => {
   app.use(express.json());
   app.post("/edit", postGame);
   app.get("/test", getAll);
+  app.get("/game/:uId?", getGamesById);
 
   //mongoose connection
   mongoose.connect(uri);

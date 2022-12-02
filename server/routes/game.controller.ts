@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import mongoose from "mongoose";
 import GameSchema from "../routes/game.model";
 
 //get request
@@ -12,10 +11,23 @@ const getAll = async (req: Request, res: Response) => {
   }
 };
 
+const getGamesById = async (req: Request, res: Response) => {
+  const id = req.query._id;
+  console.log(id);
+  try {
+    const getResult = await GameSchema.find({
+      _id: id,
+    });
+    res.status(200).send(getResult);
+  } catch (err) {
+    res.status(401).send(err);
+  }
+};
+
 //post request
 const postGame = async (req: Request, res: Response) => {
-  //console.log(GameSchema);
   let { titleOfGame, description, uId, isPrivate, gameModules } = req.body;
+  console.log("this is running");
   try {
     const newGame = new GameSchema({
       titleOfGame: titleOfGame,
@@ -31,4 +43,4 @@ const postGame = async (req: Request, res: Response) => {
   }
 };
 
-module.exports = { postGame, getAll };
+module.exports = { postGame, getAll, getGamesById };
