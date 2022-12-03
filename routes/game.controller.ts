@@ -26,15 +26,27 @@ const getGamesById = async (req: Request, res: Response) => {
 
 //post request
 const postGame = async (req: Request, res: Response) => {
-  let { titleOfGame, description, uId, isPrivate, gameModules } = req.body;
-  console.log("this is running");
+  let {
+    titleOfGame,
+    description,
+    uId,
+    author,
+    rating,
+    estimatedTimeMinutes,
+    isPrivate,
+    gameModules,
+  } = req.body;
+
   try {
     const newGame = new GameSchema({
-      titleOfGame: titleOfGame,
-      description: description,
-      uId: uId,
-      isPrivate: isPrivate,
-      gameModules: gameModules,
+      titleOfGame,
+      description,
+      uId,
+      author,
+      rating,
+      estimatedTimeMinutes,
+      isPrivate,
+      gameModules,
     });
     const save = await newGame.save();
     res.status(201).json({ success: true, data: save });

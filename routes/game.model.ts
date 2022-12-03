@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const GameSchema = new Schema({
-  // _id: Schema.Types.ObjectId,
   titleOfGame: {
     type: String,
     required: true,
@@ -13,11 +12,19 @@ const GameSchema = new Schema({
     maxLength: [300, "Description is too long!"],
   },
   uId: String,
+  author: {
+    type: String,
+    maxLength: [50, "Name is too long!"],
+  },
+  rating: {
+    type: String,
+    maxLength: [4],
+  },
+  estimatedTimeMinutes: Number,
   isPrivate: Boolean,
 
   gameModules: [
     new Schema({
-      // _id: Schema.Types.ObjectId,
       typeOfModule: String,
       title: {
         type: String,
@@ -26,10 +33,8 @@ const GameSchema = new Schema({
       },
       description: String,
       answer: String,
-      picture: {
-        data: Buffer,
-        contentType: String,
-      },
+      picture: String,
+      locationCoordinates: String,
     }),
   ],
 
