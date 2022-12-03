@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const Schema = mongoose.Schema;
 
 const GameSchema = new Schema({
@@ -27,7 +26,10 @@ const GameSchema = new Schema({
       },
       description: String,
       answer: String,
-      picture: String,
+      picture: {
+        data: Buffer,
+        contentType: String,
+      },
     }),
   ],
 
