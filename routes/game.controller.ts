@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import GameSchema from "../routes/game.model";
 
+//hi
 //get request
 const getAll = async (req: Request, res: Response) => {
   try {
