@@ -9,7 +9,7 @@ const GameSchema = new Schema({
   },
   description: {
     type: String,
-    maxLength: [300, "Description is too long!"],
+    maxLength: [1000, "Description is too long!"],
   },
   uId: String,
   author: {
@@ -32,6 +32,7 @@ const GameSchema = new Schema({
         maxLength: [100, "Module title is too long!"],
       },
       description: String,
+      question: String,
       answer: String,
       picture: String,
       locationCoordinates: String,
