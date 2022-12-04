@@ -63,7 +63,7 @@ const postGame = async (req: Request, res: Response) => {
       gameModules,
     });
     const save = await newGame.save();
-    console.log("😣", newGame);
+    //console.log("😣", newGame.author);
     res.status(201).json({ success: true, data: save });
   } catch (err) {
     res.status(401).send(err);

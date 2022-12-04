@@ -15,6 +15,7 @@ const gameModules = new Schema({
       answer: String,
       img: {
         data: Buffer,
+        name: String,
         contentType: String,
       },
       locationCoordinates: String,

@@ -35,7 +35,7 @@ const GameSchema = new Schema({
       question: String,
       answer: String,
       picture: String,
-      locationCoordinates: String,
+      locationCoordinates: Array,
     }),
   ],
 

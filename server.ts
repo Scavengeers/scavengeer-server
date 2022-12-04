@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
+import path from "path";
+import fs from "fs";
 import multer from "multer";
 import gameModules from "./routes/gamemodule";
 const { postGame, getAll, getGamesById } = require("./routes/game.controller");
@@ -30,41 +32,45 @@ const setupServer: Function = () => {
   });
 
   //post request
-  const Storage = multer.diskStorage({
-    destination: "uploads",
-    filename: (req, file, cb) => {
-      cb(null, file.originalname);
-    },
-  });
+  const Storage = multer.memoryStorage();
+  const upload = multer({ storage: Storage });
 
-  const upload = multer({
-    storage: Storage,
-  }).single("testImage");
+  app.post(
+    "/upload",
+    upload.single("image"),
+    async (req: Request, res: Response) => {
+      //console.log(req.body);
+      const payload = JSON.parse(JSON.stringify(req.body));
+      const data = req.file?.buffer;
+      const name = req.file?.originalname;
+      const contentType = req.file?.mimetype;
+      const image = {
+        data: data,
+        name: name,
+        contentType: contentType,
+      };
+      //console.log(image);
+      // console.log("😭", data);
+      // console.log("😡", name);
+      // console.log("🥺", contentType);
 
-  app.post("/upload", async (req: Request, res: Response) => {
-    const { typeOfModule, title, description, answer } = req.body;
-    console.log("This is the body you got:", req.body);
-    upload(req, res, (err) => {
-      if (err) {
-        console.log(err);
-      } else {
+      try {
         const newGameModule = new gameModules({
-          typeOfModule: typeOfModule,
-          title: title,
-          description: description,
-          answer: answer,
-          img: {
-            data: req.body.filename,
-            contentType: "image/png",
-          },
+          typeOfModule: payload.typeOfModule,
+          title: payload.title,
+          description: payload.description,
+          answer: payload.answer,
+          img: image,
         });
-        newGameModule
-          .save()
-          .then(() => res.send(newGameModule + " has been uploaded!"))
-          .catch((err: any) => console.error(err));
+        console.log(newGameModule);
+        // const saveImage = await newGameModule.save();
+        //console.log(newGameModule);
+        // res.status(201).json({ success: true, data: saveImage });
+      } catch (err) {
+        res.status(401).send(err);
       }
-    });
-  });
+    }
+  );
 
   app.post("/test", (req: Request, res: Response) => {
     console.log(req.body);
