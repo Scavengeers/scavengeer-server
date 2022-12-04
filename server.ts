@@ -44,27 +44,27 @@ const setupServer: Function = () => {
       const data = req.file?.buffer;
       const name = req.file?.originalname;
       const contentType = req.file?.mimetype;
-      const image = {
-        data: data,
-        name: name,
-        contentType: contentType,
+
+      const postObj = {
+        typeOfModule: payload.typeOfModule,
+        title: payload.title,
+        description: payload.description,
+        answer: payload.answer,
+        img: {
+          data: data,
+          name: name,
+          contentType: contentType,
+        },
       };
-      //console.log(image);
-      // console.log("😭", data);
-      // console.log("😡", name);
-      // console.log("🥺", contentType);
+      console.log(req.file);
 
       try {
         const newGameModule = new gameModules({
-          typeOfModule: payload.typeOfModule,
-          title: payload.title,
-          description: payload.description,
-          answer: payload.answer,
-          img: image,
+          gameModules: postObj,
         });
-        console.log(newGameModule);
+        // console.log(newGameModule);
         // const saveImage = await newGameModule.save();
-        //console.log(newGameModule);
+        // console.log(newGameModule);
         // res.status(201).json({ success: true, data: saveImage });
       } catch (err) {
         res.status(401).send(err);
