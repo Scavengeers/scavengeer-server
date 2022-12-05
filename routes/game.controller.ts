@@ -14,12 +14,22 @@ const getAll = async (req: Request, res: Response) => {
 };
 
 const getGamesById = async (req: Request, res: Response) => {
-  const id = req.query.uId;
-  console.log(id);
+  const id = req.query._id;
+  //console.log(id);
   try {
-    const getResult = await GameSchema.find({
-      uId: id,
-    });
+    const getResult = await GameSchema.find(
+      { _id: id },
+      {
+        titleOfGame: 1,
+        description: 1,
+        author: 1,
+        rating: 1,
+        image: 1,
+        estimatedTimeMinutes: 1,
+        startingLocationCoordinates: 1,
+      }
+    );
+    console.log(getResult);
     res.status(200).send(getResult);
   } catch (err) {
     res.status(401).send(err);
@@ -45,22 +55,26 @@ const postGame = async (req: Request, res: Response) => {
     uId,
     author,
     rating,
+    image,
     estimatedTimeMinutes,
     isPrivate,
     gameModules,
+    startingLocationCoordinates,
   } = req.body;
 
   try {
-    //console.log(req.body);
+    console.log(req.body);
     const newGame = new GameSchema({
       titleOfGame,
       description,
       uId,
       author,
       rating,
+      image,
       estimatedTimeMinutes,
       isPrivate,
       gameModules,
+      startingLocationCoordinates,
     });
     const save = await newGame.save();
     //console.log("😣", newGame.author);

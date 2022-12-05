@@ -20,6 +20,7 @@ const GameSchema = new Schema({
     type: String,
     maxLength: [4],
   },
+  image: String,
   estimatedTimeMinutes: Number,
   isPrivate: Boolean,
 
@@ -34,10 +35,11 @@ const GameSchema = new Schema({
       description: String,
       question: String,
       answer: String,
-      picture: String,
-      locationCoordinates: Array,
+      pictureId: String,
+      locationCoordinates: Array<number>,
     }),
   ],
+  startingLocationCoordinates: Array<number>,
 
   dateCreated: { type: Date, default: Date.now },
   dateUpdated: { type: Date, default: Date.now },
