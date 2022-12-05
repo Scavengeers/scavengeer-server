@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import GameSchema from "../routes/game.model";
+import multer from "multer";
 
+//hi
 //get request
 const getAll = async (req: Request, res: Response) => {
   try {
@@ -13,11 +15,21 @@ const getAll = async (req: Request, res: Response) => {
 
 const getGamesById = async (req: Request, res: Response) => {
   const id = req.query._id;
-  console.log(id);
+  //console.log(id);
   try {
-    const getResult = await GameSchema.find({
-      _id: id,
-    });
+    const getResult = await GameSchema.find(
+      { _id: id },
+      {
+        titleOfGame: 1,
+        description: 1,
+        author: 1,
+        rating: 1,
+        image: 1,
+        estimatedTimeMinutes: 1,
+        startingLocationCoordinates: 1,
+      }
+    );
+    console.log(getResult);
     res.status(200).send(getResult);
   } catch (err) {
     res.status(401).send(err);
@@ -25,21 +37,50 @@ const getGamesById = async (req: Request, res: Response) => {
 };
 
 //post request
+const Storage = multer.diskStorage({
+  destination: "uploads",
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({
+  storage: Storage,
+}).single("testImage");
+
 const postGame = async (req: Request, res: Response) => {
-  let { titleOfGame, description, uId, isPrivate, gameModules } = req.body;
-  console.log("this is running");
+  let {
+    titleOfGame,
+    description,
+    uId,
+    author,
+    rating,
+    image,
+    estimatedTimeMinutes,
+    isPrivate,
+    gameModules,
+    startingLocationCoordinates,
+  } = req.body;
+
   try {
+    console.log(req.body);
     const newGame = new GameSchema({
-      titleOfGame: titleOfGame,
-      description: description,
-      uId: uId,
-      isPrivate: isPrivate,
-      gameModules: gameModules,
+      titleOfGame,
+      description,
+      uId,
+      author,
+      rating,
+      image,
+      estimatedTimeMinutes,
+      isPrivate,
+      gameModules,
+      startingLocationCoordinates,
     });
     const save = await newGame.save();
+    //console.log("😣", newGame.author);
     res.status(201).json({ success: true, data: save });
   } catch (err) {
-    res.status(401).send("This is erroring");
+    res.status(401).send(err);
   }
 };
 

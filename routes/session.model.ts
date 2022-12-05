@@ -11,3 +11,5 @@ const SessionSchema = new Schema({
 
 export default mongoose.models.SessionSchema ||
   mongoose.model("SessionSchema", SessionSchema);
+
+//everytime player plays a game, keep track/
