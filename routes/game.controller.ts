@@ -15,6 +15,7 @@ const getAll = async (req: Request, res: Response) => {
 
 const getGamesById = async (req: Request, res: Response) => {
   const id = req.query._id;
+  console.log("getGameById");
   //console.log(id);
   try {
     const getResult = await GameSchema.find(
@@ -29,8 +30,23 @@ const getGamesById = async (req: Request, res: Response) => {
         startingLocationCoordinates: 1,
       }
     );
-    console.log(getResult);
+    //console.log(getResult);
     res.status(200).send(getResult);
+  } catch (err) {
+    res.status(401).send(err);
+  }
+};
+
+const getGameModule = async (req: Request, res: Response) => {
+  console.log("😩");
+  let index = 0;
+  const id = req.params._id;
+  try {
+    const getResult = await GameSchema.find(
+      { _id: id },
+      { gameModules: 1 }
+    ).then((data) => data[0]["gameModules"]);
+    res.status(200).send(getResult[0]);
   } catch (err) {
     res.status(401).send(err);
   }
@@ -63,7 +79,7 @@ const postGame = async (req: Request, res: Response) => {
   } = req.body;
 
   try {
-    console.log(req.body);
+    //console.log(req.body);
     const newGame = new GameSchema({
       titleOfGame,
       description,
@@ -84,4 +100,4 @@ const postGame = async (req: Request, res: Response) => {
   }
 };
 
-module.exports = { postGame, getAll, getGamesById };
+module.exports = { postGame, getAll, getGamesById, getGameModule };

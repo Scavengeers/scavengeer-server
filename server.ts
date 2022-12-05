@@ -5,7 +5,12 @@ import cors from "cors";
 import multer from "multer";
 import imageModule from "./routes/image.module";
 import postPhoto from "./routes/image.controller";
-const { postGame, getAll, getGamesById } = require("./routes/game.controller");
+const {
+  postGame,
+  getAll,
+  getGamesById,
+  getGameModule,
+} = require("./routes/game.controller");
 
 dotenv.config();
 const uri = process.env.MONGO_URI;
@@ -20,8 +25,8 @@ const setupServer: Function = () => {
   app.use(express.json());
   // app.post("/upload");
   app.post("/edit", postGame);
-  app.get("/test", getAll);
-  app.get("/:uId?", getGamesById);
+  app.get("/game/:_id", getGameModule);
+  app.get("/:_id?", getGamesById);
   //app.post("/upload", upload.single("image"), postPhoto);
 
   //mongoose connection
@@ -35,10 +40,6 @@ const setupServer: Function = () => {
   //post request
   const Storage = multer.memoryStorage();
   const upload = multer({ storage: Storage });
-
-  app.post("/test", (req: Request, res: Response) => {
-    console.log(req.body);
-  });
 
   return app;
 };
