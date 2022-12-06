@@ -15,7 +15,7 @@ const getAll = async (req: Request, res: Response) => {
 
 const getGamesById = async (req: Request, res: Response) => {
   const id = req.query._id;
-  //console.log(id);
+  console.log("getGameById");
   try {
     const getResult = await GameSchema.find(
       { _id: id },
@@ -29,8 +29,21 @@ const getGamesById = async (req: Request, res: Response) => {
         startingLocationCoordinates: 1,
       }
     );
-    console.log(getResult);
     res.status(200).send(getResult);
+  } catch (err) {
+    res.status(401).send(err);
+  }
+};
+
+const getGameModule = async (req: Request, res: Response) => {
+  let index = 0;
+  const id = req.params._id;
+  try {
+    const getResult = await GameSchema.find(
+      { _id: id },
+      { gameModules: 1 }
+    ).then((data) => data[0]["gameModules"]);
+    res.status(200).send(getResult[0]);
   } catch (err) {
     res.status(401).send(err);
   }
@@ -63,7 +76,6 @@ const postGame = async (req: Request, res: Response) => {
   } = req.body;
 
   try {
-    console.log(req.body);
     const newGame = new GameSchema({
       titleOfGame,
       description,
@@ -77,11 +89,10 @@ const postGame = async (req: Request, res: Response) => {
       startingLocationCoordinates,
     });
     const save = await newGame.save();
-    //console.log("😣", newGame.author);
     res.status(201).json({ success: true, data: save });
   } catch (err) {
     res.status(401).send(err);
   }
 };
 
-module.exports = { postGame, getAll, getGamesById };
+module.exports = { postGame, getAll, getGamesById, getGameModule };

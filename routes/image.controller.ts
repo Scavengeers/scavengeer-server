@@ -15,7 +15,6 @@ const upload = multer({ storage: Storage });
 const postPhoto = (req: Request, res: Response) => {
   upload.single("image"),
     async (req: Request, res: Response) => {
-      //console.log(req.body);
       const payload = JSON.parse(JSON.stringify(req.body));
       const data = req.file?.buffer;
       const name = req.file?.originalname;
@@ -35,10 +34,8 @@ const postPhoto = (req: Request, res: Response) => {
         const newGameModule = new imageModule({
           img: postObj,
         });
-        // console.log(newGameModule);
-        // const saveImage = await newGameModule.save();
-        // console.log(newGameModule);
-        // res.status(201).json({ success: true, data: saveImage });
+        const saveImage = await newGameModule.save();
+        res.status(201).json({ success: true, data: saveImage });
       } catch (err) {
         res.status(401).send(err);
       }
