@@ -23,9 +23,9 @@ const setupServer: Function = () => {
   //middlewares
   app.use(cors());
   app.use(express.json());
-  // app.post("/upload");
+  //app.post("/upload");
   app.post("/edit", postGame);
-  app.get("/game/:_id", getGameModule);
+  app.get("/game/:_id/:index?", getGameModule);
   app.get("/:_id?", getGamesById);
   //app.post("/upload", upload.single("image"), postPhoto);
 

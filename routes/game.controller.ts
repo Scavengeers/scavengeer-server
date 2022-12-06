@@ -14,8 +14,9 @@ const getAll = async (req: Request, res: Response) => {
 };
 
 const getGamesById = async (req: Request, res: Response) => {
+  console.log("hello");
   const id = req.query._id;
-  console.log("getGameById");
+  //console.log(req.query.params);
   try {
     const getResult = await GameSchema.find(
       { _id: id },
@@ -36,16 +37,28 @@ const getGamesById = async (req: Request, res: Response) => {
 };
 
 const getGameModule = async (req: Request, res: Response) => {
-  let index = 0;
   const id = req.params._id;
-  try {
-    const getResult = await GameSchema.find(
-      { _id: id },
-      { gameModules: 1 }
-    ).then((data) => data[0]["gameModules"]);
-    res.status(200).send(getResult[0]);
-  } catch (err) {
-    res.status(401).send(err);
+  const index: number = parseInt(req.query.index as string);
+  if (index) {
+    try {
+      const getResult = await GameSchema.find(
+        { _id: id },
+        { gameModules: 1 }
+      ).then((data) => data[0]["gameModules"]);
+      res.status(200).send(getResult[index]);
+    } catch (err) {
+      res.status(401).send(err);
+    }
+  } else {
+    try {
+      const getResult = await GameSchema.find(
+        { _id: id },
+        { gameModules: 1 }
+      ).then((data) => data[0]["gameModules"]);
+      res.status(200).send(getResult[0]);
+    } catch (err) {
+      res.status(401).send(err);
+    }
   }
 };
 
