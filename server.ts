@@ -7,9 +7,9 @@ import imageModule from "./routes/image.module";
 import postPhoto from "./routes/image.controller";
 const {
   postGame,
-  getAll,
   getGamesById,
   getGameModule,
+  editGame,
 } = require("./routes/game.controller");
 
 dotenv.config();
@@ -24,7 +24,8 @@ const setupServer: Function = () => {
   app.use(cors());
   app.use(express.json());
   //app.post("/upload");
-  app.post("/edit", postGame);
+  app.patch("/profile/create/edit/:_id?", editGame);
+  app.post("/profile/create", postGame);
   app.get("/game/:_id/:index?", getGameModule);
   app.get("/:_id?", getGamesById);
   //app.post("/upload", upload.single("image"), postPhoto);
