@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const GameSchema = new Schema({
+  isPublished: {
+    Boolean,
+    required: true,
+  },
   titleOfGame: {
     type: String,
     required: true,

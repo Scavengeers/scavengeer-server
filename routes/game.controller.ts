@@ -16,25 +16,22 @@ const getAll = async (req: Request, res: Response) => {
 };
 
 const getGamesById = async (req: Request, res: Response) => {
-  console.log("hello");
   const id = req.query._id;
-  try {
-    const getResult = await GameSchema.find(
-      { _id: id },
-      {
-        titleOfGame: 1,
-        description: 1,
-        author: 1,
-        rating: 1,
-        image: 1,
-        estimatedTimeMinutes: 1,
-        startingLocationCoordinates: 1,
-      }
-    );
-    res.status(200).send(getResult);
-  } catch (err) {
-    res.status(401).send(err);
-  }
+  const getResult = await GameSchema.find(
+    { _id: id },
+    {
+      isPublished: 1,
+      titleOfGame: 1,
+      description: 1,
+      author: 1,
+      rating: 1,
+      image: 1,
+      estimatedTimeMinutes: 1,
+      startingLocationCoordinates: 1,
+    }
+  );
+  //console.log(getResult.isPublished);
+  res.status(200).send(getResult);
 };
 
 const getGameModule = async (req: Request, res: Response) => {
@@ -47,16 +44,6 @@ const getGameModule = async (req: Request, res: Response) => {
         { gameModules: 1 }
       ).then((data) => data[0]["gameModules"]);
       res.status(200).send(getResult[index]);
-    } catch (err) {
-      res.status(401).send(err);
-    }
-  } else {
-    try {
-      const getResult = await GameSchema.find(
-        { _id: id },
-        { gameModules: 1 }
-      ).then((data) => data[0]["gameModules"]);
-      res.status(200).send(getResult[0]);
     } catch (err) {
       res.status(401).send(err);
     }
@@ -79,6 +66,7 @@ const postGame = async (req: Request, res: Response) => {
   const payload = JSON.parse(JSON.stringify(req.body));
   console.log(req.body);
   let {
+    isPublished,
     titleOfGame,
     description,
     uId,
@@ -93,6 +81,7 @@ const postGame = async (req: Request, res: Response) => {
 
   try {
     const newGame = new GameSchema({
+      isPublished,
       titleOfGame,
       description,
       uId,
