@@ -10,6 +10,7 @@ const {
   getGamesById,
   getGameModule,
   editGame,
+  getAll,
 } = require("./routes/game.controller");
 
 dotenv.config();
@@ -23,7 +24,7 @@ const setupServer: Function = () => {
   //middlewares
   app.use(cors());
   app.use(express.json());
-  //app.post("/upload");
+  app.get("/", getAll);
   app.patch("/profile/create/edit/:_id?", editGame);
   app.post("/profile/create", postGame);
   app.get("/game/:_id/:index?", getGameModule);

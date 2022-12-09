@@ -7,18 +7,25 @@ const ObjectID = require("mongodb").ObjectId;
 //hi
 //get request
 const getAll = async (req: Request, res: Response) => {
-  try {
-    const allList = await GameSchema.find();
-    res.status(200).json({ success: true, data: allList });
-  } catch (err) {
-    res.status(409).send(err);
-  }
+  const getResult = await GameSchema.find(
+    { isPublished: true, isPrivate: false },
+    {
+      titleOfGame: 1,
+      description: 1,
+      author: 1,
+      rating: 1,
+      image: 1,
+      estimatedTimeMinutes: 1,
+      startingLocationCoordinates: 1,
+    }
+  );
+  res.status(200).send(getResult);
 };
 
 const getGamesById = async (req: Request, res: Response) => {
   const id = req.query._id;
   const getResult = await GameSchema.find(
-    { _id: id },
+    { _id: id, isPublished: true, isPrivate: false },
     {
       isPublished: 1,
       titleOfGame: 1,
@@ -30,7 +37,7 @@ const getGamesById = async (req: Request, res: Response) => {
       startingLocationCoordinates: 1,
     }
   );
-  //console.log(getResult.isPublished);
+  //getResult.isPublished;
   res.status(200).send(getResult);
 };
 

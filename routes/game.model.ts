@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const GameSchema = new Schema({
   isPublished: {
-    Boolean,
+    type: Boolean,
     required: true,
   },
   titleOfGame: {
@@ -41,6 +41,7 @@ const GameSchema = new Schema({
       answer: Array<string>,
       image: String,
       locationCoordinates: Array<number>,
+      hint: String,
     }),
   ],
   startingLocationCoordinates: Array<number>,
