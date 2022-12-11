@@ -2,14 +2,18 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const SessionSchema = new Schema({
+const sessionDocument = new Schema({
+  gameId: String,
+  isAUser: Boolean,
+  isFinished: Boolean,
+  gameProgress: Number,
   uId: String,
-  nameOfPlayer: String,
-  startTime: { type: Date, default: Date.now },
-  endTime: { type: Date, default: Date.now },
+  initialLocation: String,
+  distance: Number,
+  points: Number,
+  dateCreated: { type: Date, default: Date.now },
+  dateUpdated: { type: Date, default: Date.now },
 });
 
-export default mongoose.models.SessionSchema ||
-  mongoose.model("SessionSchema", SessionSchema);
-
-//everytime player plays a game, keep track/
+export default mongoose.models.sessionDocument ||
+  mongoose.model("session", sessionDocument);

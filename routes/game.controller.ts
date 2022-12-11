@@ -6,7 +6,7 @@ const ObjectID = require("mongodb").ObjectId;
 
 //hi
 //get request
-const getAll = async (req: Request, res: Response) => {
+const getPublicGames = async (req: Request, res: Response) => {
   const getResult = await GameSchema.find(
     { isPublished: true, isPrivate: false },
     {
@@ -130,4 +130,10 @@ const editGame = async (req: Request, res: Response) => {
   }
 };
 
-module.exports = { postGame, getAll, getGamesById, getGameModule, editGame };
+module.exports = {
+  postGame,
+  getPublicGames,
+  getGamesById,
+  getGameModule,
+  editGame,
+};
