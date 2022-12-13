@@ -8,7 +8,7 @@ const ObjectID = require("mongodb").ObjectId;
 //get request
 const getPublicGames = async (req: Request, res: Response) => {
   const getResult = await GameSchema.find(
-    { isPublished: true, isPrivate: false },
+    { isPublished: "true", isPrivate: "false" },
     {
       titleOfGame: 1,
       description: 1,
@@ -24,21 +24,26 @@ const getPublicGames = async (req: Request, res: Response) => {
 
 const getGamesById = async (req: Request, res: Response) => {
   const id = req.query._id;
-  const getResult = await GameSchema.find(
-    { _id: id, isPublished: true, isPrivate: false },
-    {
-      isPublished: 1,
-      titleOfGame: 1,
-      description: 1,
-      author: 1,
-      rating: 1,
-      image: 1,
-      estimatedTimeMinutes: 1,
-      startingLocationCoordinates: 1,
-    }
-  );
+  try {
+    console.log("this is running");
+    const getResult = await GameSchema.find(
+      { _id: id, isPublished: "true", isPrivate: "false" },
+      {
+        isPublished: 1,
+        titleOfGame: 1,
+        description: 1,
+        author: 1,
+        rating: 1,
+        image: 1,
+        estimatedTimeMinutes: 1,
+        startingLocationCoordinates: 1,
+      }
+    );
+    res.status(200).send(getResult);
+  } catch (err) {
+    res.status(400).send(err);
+  }
   //getResult.isPublished;
-  res.status(200).send(getResult);
 };
 
 const getGameModule = async (req: Request, res: Response) => {
@@ -69,69 +74,8 @@ const upload = multer({
   storage: Storage,
 }).single("testImage");
 
-const postGame = async (req: Request, res: Response) => {
-  const payload = JSON.parse(JSON.stringify(req.body));
-  console.log(req.body);
-  let {
-    isPublished,
-    titleOfGame,
-    description,
-    uId,
-    author,
-    rating,
-    image,
-    estimatedTimeMinutes,
-    isPrivate,
-    gameModules,
-    startingLocationCoordinates,
-  } = req.body;
-
-  try {
-    const newGame = new GameSchema({
-      isPublished,
-      titleOfGame,
-      description,
-      uId,
-      author,
-      rating,
-      image,
-      estimatedTimeMinutes,
-      isPrivate,
-      gameModules,
-      startingLocationCoordinates,
-    });
-    const save = await newGame.save();
-    res.status(201).json({ success: true, data: save._id });
-  } catch (err) {
-    res.status(401).send(err);
-  }
-};
-
-//patch request
-const editGame = async (req: Request, res: Response) => {
-  const updates = req.body;
-  const id = req.params._id;
-
-  if (isValidObjectId(req.params._id)) {
-    try {
-      await GameSchema.updateOne(
-        {
-          _id: id,
-        },
-        { $set: updates }
-      ).then((result) => {
-        res.status(200).json(result);
-      });
-    } catch (err) {
-      res.status(401).json({ error: err });
-    }
-  }
-};
-
 module.exports = {
-  postGame,
   getPublicGames,
   getGamesById,
   getGameModule,
-  editGame,
 };

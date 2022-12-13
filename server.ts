@@ -3,15 +3,12 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import multer from "multer";
-import imageModule from "./routes/image.module";
-import postPhoto from "./routes/image.controller";
 const {
-  postGame,
   getGamesById,
   getGameModule,
-  editGame,
   getPublicGames,
 } = require("./routes/game.controller");
+const { editGame, postGame } = require("./routes/editor.controller");
 
 dotenv.config();
 const uri = process.env.MONGO_URI;
@@ -26,7 +23,7 @@ const setupServer: Function = () => {
   app.use(express.json());
   app.patch("/editor/:_id?", editGame);
   app.post("/editor", postGame);
-  app.get("/", getPublicGames);
+  app.get("/profile", getPublicGames);
   app.get("/:_id?", getGamesById);
   app.get("/game/:_id/:index?", getGameModule);
 
