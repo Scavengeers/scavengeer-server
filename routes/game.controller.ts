@@ -101,7 +101,7 @@ const postGame = async (req: Request, res: Response) => {
       startingLocationCoordinates,
     });
     const save = await newGame.save();
-    res.status(201).json({ success: true, data: save });
+    res.status(201).json({ success: true, data: save._id });
   } catch (err) {
     res.status(401).send(err);
   }
@@ -109,8 +109,6 @@ const postGame = async (req: Request, res: Response) => {
 
 //patch request
 const editGame = async (req: Request, res: Response) => {
-  console.log("hello worls");
-  console.log(req.body);
   const updates = req.body;
   const id = req.params._id;
 

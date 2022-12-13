@@ -29,7 +29,6 @@ const setupServer: Function = () => {
   app.get("/", getPublicGames);
   app.get("/:_id?", getGamesById);
   app.get("/game/:_id/:index?", getGameModule);
-  //app.post("/upload", upload.single("image"), postPhoto);
 
   //mongoose connection
   mongoose.connect(uri);

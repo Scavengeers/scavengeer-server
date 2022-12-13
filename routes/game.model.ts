@@ -30,6 +30,7 @@ const GameSchema = new Schema({
 
   gameModules: [
     new Schema({
+      _id: Schema.Types.ObjectId,
       typeOfModule: String,
       title: {
         type: String,
@@ -45,6 +46,7 @@ const GameSchema = new Schema({
     }),
   ],
   startingLocationCoordinates: Array<number>,
+  startLocation: String,
 
   dateCreated: { type: Date, default: Date.now },
   dateUpdated: { type: Date, default: Date.now },
