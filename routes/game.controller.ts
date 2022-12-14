@@ -6,6 +6,10 @@ const ObjectID = require("mongodb").ObjectId;
 
 //hi
 //get request
+const getGame = async (req: Request, res: Response) => {
+  const getResult = await GameSchema.find({});
+  res.status(200).send(getResult);
+};
 const getPublicGames = async (req: Request, res: Response) => {
   const getResult = await GameSchema.find(
     { isPublished: "true", isPrivate: "false" },
@@ -45,6 +49,18 @@ const getGamesById = async (req: Request, res: Response) => {
   }
   //getResult.isPublished;
 };
+const getGameForEditor = async (req: Request, res: Response) => {
+  console.log("🌒");
+  console.log(req.body);
+  const id = req.params._id;
+  try {
+    const getResult = await GameSchema.find({ _id: id });
+    res.status(200).send(getResult);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+  //getResult.isPublished;
+};
 
 const getGameModule = async (req: Request, res: Response) => {
   const id = req.params._id;
@@ -78,4 +94,6 @@ module.exports = {
   getPublicGames,
   getGamesById,
   getGameModule,
+  getGameForEditor,
+  getGame,
 };
