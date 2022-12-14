@@ -7,6 +7,8 @@ const {
   getGamesById,
   getGameModule,
   getPublicGames,
+  getGameForEditor,
+  getGame,
 } = require("./routes/game.controller");
 const { editGame, postGame } = require("./routes/editor.controller");
 
@@ -21,10 +23,16 @@ const setupServer: Function = () => {
   //middlewares
   app.use(cors());
   app.use(express.json());
-  app.patch("/editor/:_id?", editGame);
+
+  //publish button
+  app.patch("/editor/:_id", editGame);
+  //save button
+  app.get("/test", getGame);
   app.post("/editor", postGame);
   app.get("/profile", getPublicGames);
   app.get("/:_id?", getGamesById);
+  app.get("profile/:uId");
+  app.get("/editor/:_id", getGameForEditor);
   app.get("/game/:_id/:index?", getGameModule);
 
   //mongoose connection

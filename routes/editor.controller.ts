@@ -46,6 +46,7 @@ const postGame = async (req: Request, res: Response) => {
 const editGame = async (req: Request, res: Response) => {
   const updates = req.body;
   const id = req.params._id;
+  console.log(updates);
 
   if (isValidObjectId(req.params._id)) {
     try {
@@ -55,6 +56,7 @@ const editGame = async (req: Request, res: Response) => {
         },
         { $set: updates }
       ).then((result) => {
+        console.log("this is good!");
         res.status(200).json(result);
       });
     } catch (err) {
