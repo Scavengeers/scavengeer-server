@@ -8,6 +8,7 @@ const postGame = async (req: Request, res: Response) => {
   const payload = JSON.parse(JSON.stringify(req.body));
   console.log(req.body);
   let {
+    _id,
     isPublished,
     titleOfGame,
     description,
@@ -23,6 +24,7 @@ const postGame = async (req: Request, res: Response) => {
 
   try {
     const newGame = new GameSchema({
+      _id,
       isPublished,
       titleOfGame,
       description,
@@ -45,23 +47,20 @@ const postGame = async (req: Request, res: Response) => {
 //patch request
 const editGame = async (req: Request, res: Response) => {
   const updates = req.body;
-  const id = req.params._id;
-  console.log(updates);
+  const gameData = await GameSchema.findById(req.params._id)
+  if(!gameData) return res.status(404).send("The game does not exist");
 
-  if (isValidObjectId(req.params._id)) {
-    try {
-      await GameSchema.updateOne(
-        {
-          _id: id,
-        },
-        { $set: updates }
-      ).then((result) => {
-        console.log("this is good!");
-        res.status(200).json(result);
-      });
-    } catch (err) {
-      res.status(401).json({ error: err });
-    }
+  try {
+    await GameSchema.updateOne(
+      {
+        _id: req.params._id,
+      },
+      { $set: updates }
+    ).then((result) => {
+      res.status(200).json(result);
+    });
+  } catch (err) {
+    res.status(401).json({ error: err });
   }
 };
 

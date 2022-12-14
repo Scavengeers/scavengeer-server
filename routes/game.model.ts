@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const GameSchema = new Schema({
+  _id: String,
   isPublished: {
-    type: Boolean,
+    type: String,
     required: true,
   },
   titleOfGame: {
@@ -30,7 +31,7 @@ const GameSchema = new Schema({
 
   gameModules: [
     new Schema({
-      _id: Schema.Types.ObjectId,
+      _id: String,
       typeOfModule: String,
       title: {
         type: String,
@@ -39,7 +40,7 @@ const GameSchema = new Schema({
       },
       description: String,
       question: String,
-      answer: Array<string>,
+      answer: String,
       image: String,
       locationCoordinates: Array<number>,
       hint: String,
