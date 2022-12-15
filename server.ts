@@ -9,29 +9,27 @@ const {
   getPublicGames,
   getGameForEditor,
   getGame,
+  
 } = require("./routes/game.controller");
-const { editGame, postGame } = require("./routes/editor.controller");
+const { editGame, postGame, deleteGame } = require("./routes/editor.controller");
 
 dotenv.config();
 const uri = process.env.MONGO_URI;
 
 const setupServer: Function = () => {
   const app: Express = express();
-  // const Storage = multer.memoryStorage();
-  // const upload = multer({ storage: Storage });
 
   //middlewares
   app.use(cors());
   app.use(express.json());
 
-  //publish button
   app.patch("/editor/:_id", editGame);
-  //save button
-  app.get("/test", getGame);
   app.post("/editor", postGame);
-  app.get("/profile", getPublicGames);
+  app.delete("/profile/:_id", deleteGame);
+  app.get("/test", getGame);
+  app.get("/", getPublicGames);
   app.get("/:_id?", getGamesById);
-  app.get("profile/:uId");
+  app.get("/:uId");
   app.get("/editor/:_id", getGameForEditor);
   app.get("/game/:_id/:index?", getGameModule);
 

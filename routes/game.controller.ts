@@ -50,11 +50,11 @@ const getGamesById = async (req: Request, res: Response) => {
   //getResult.isPublished;
 };
 const getGameForEditor = async (req: Request, res: Response) => {
-  console.log("🌒");
-  console.log(req.body);
   const id = req.params._id;
+  console.log(id)
   try {
     const getResult = await GameSchema.find({ _id: id });
+    console.log(getResult)
     res.status(200).send(getResult);
   } catch (err) {
     res.status(400).send(err);

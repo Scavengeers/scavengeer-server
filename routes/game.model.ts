@@ -7,6 +7,7 @@ const GameSchema = new Schema({
     type: String,
     required: true,
   },
+  isPrivate: Boolean,
   titleOfGame: {
     type: String,
     required: true,
@@ -25,23 +26,18 @@ const GameSchema = new Schema({
     type: String,
     maxLength: [4],
   },
-  image: String,
+  gameImageURL: String,
   estimatedTimeMinutes: Number,
-  isPrivate: Boolean,
 
   gameModules: [
     new Schema({
       _id: String,
       typeOfModule: String,
-      title: {
-        type: String,
-        required: true,
-        maxLength: [100, "Module title is too long!"],
-      },
+      title:String,
       description: String,
       question: String,
       answer: String,
-      image: String,
+      imageUrl: String,
       locationCoordinates: Array<number>,
       hint: String,
     }),
