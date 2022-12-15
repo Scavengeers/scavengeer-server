@@ -5,9 +5,8 @@ import mongoose, { isObjectIdOrHexString, isValidObjectId } from "mongoose";
 const ObjectID = require("mongodb").ObjectId;
 
 const postGame = async (req: Request, res: Response) => {
-  const payload = JSON.parse(JSON.stringify(req.body));
-  console.log(req.body);
   let {
+    _id,
     isPublished,
     titleOfGame,
     description,
@@ -23,6 +22,7 @@ const postGame = async (req: Request, res: Response) => {
 
   try {
     const newGame = new GameSchema({
+      _id,
       isPublished,
       titleOfGame,
       description,
@@ -36,7 +36,7 @@ const postGame = async (req: Request, res: Response) => {
       startingLocationCoordinates,
     });
     const save = await newGame.save();
-    res.status(201).json({ success: true, data: save._id });
+    res.status(201).json({ success: true, data: save});
   } catch (err) {
     res.status(401).send(err);
   }
@@ -45,27 +45,43 @@ const postGame = async (req: Request, res: Response) => {
 //patch request
 const editGame = async (req: Request, res: Response) => {
   const updates = req.body;
-  const id = req.params._id;
-  console.log(updates);
+  const gameData = await GameSchema.findById(req.params._id)
 
-  if (isValidObjectId(req.params._id)) {
-    try {
-      await GameSchema.updateOne(
-        {
-          _id: id,
-        },
-        { $set: updates }
-      ).then((result) => {
-        console.log("this is good!");
-        res.status(200).json(result);
-      });
-    } catch (err) {
-      res.status(401).json({ error: err });
-    }
+  if(!gameData) return res.status(404).send("The game does not exist");
+
+  try {
+    await GameSchema.updateOne(
+      {
+        _id: req.params._id,
+      },
+      { $set: updates }
+    ).then((result) => {
+      res.status(200).json(result);
+    });
+  } catch (err) {
+    res.status(401).send(err);
   }
 };
+
+const deleteGame = async (req: Request, res: Response) => {
+  const gameToDelete = await GameSchema.findById(req.params._id);
+
+  if(!gameToDelete) return res.status(500).send("Not a valid document id");
+
+  try {
+    await GameSchema.deleteOne({
+      _id: req.params._id
+    }).then(result => {
+      res.status(200).json(result);
+    })
+  }catch(err) {
+    res.status(500).json({error: 'Could not delete the document'})
+  }
+
+}
 
 module.exports = {
   postGame,
   editGame,
+  deleteGame
 };
