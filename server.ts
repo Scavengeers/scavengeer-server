@@ -9,9 +9,10 @@ const {
   getPublicGames,
   getGameForEditor,
   getGame,
+  getGameByUId
   
 } = require("./routes/game.controller");
-const { editGame, postGame, deleteGame } = require("./routes/editor.controller");
+const { editGame, createGame, deleteGame } = require("./routes/editor.controller");
 
 dotenv.config();
 const uri = process.env.MONGO_URI;
@@ -24,11 +25,12 @@ const setupServer: Function = () => {
   app.use(express.json());
 
   app.patch("/editor/:_id", editGame);
-  app.post("/editor", postGame);
+  app.post("/editor", createGame);
   app.delete("/profile/:_id", deleteGame);
   app.get("/test", getGame);
   app.get("/", getPublicGames);
   app.get("/:_id?", getGamesById);
+  app.get("/:uId?", getGameByUId);
   app.get("/editor/:_id", getGameForEditor);
   app.get("/game/:_id/:index?", getGameModule);
 

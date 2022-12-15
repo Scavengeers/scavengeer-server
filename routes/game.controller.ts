@@ -10,6 +10,23 @@ const getGame = async (req: Request, res: Response) => {
   const getResult = await GameSchema.find({});
   res.status(200).send(getResult);
 };
+
+const getGameByUId = async (req: Request, res: Response) => {
+  const uId = req.params.uId;
+  const allGamesFromUId = await GameSchema.find(
+    { uId: uId },
+    {
+      titleOfGame: 1,
+      isPrivate: 1,
+      isPublished: 1,
+      dateCreated: 1,
+      dateUpdated: 1,
+    }
+  )
+  res.status(200).send(allGamesFromUId);
+};
+
+
 const getPublicGames = async (req: Request, res: Response) => {
   const getResult = await GameSchema.find(
     { isPublished: "true", isPrivate: "false" },
@@ -18,7 +35,7 @@ const getPublicGames = async (req: Request, res: Response) => {
       description: 1,
       author: 1,
       rating: 1,
-      gameImageUrl: 1,
+      gameImageURL: 1,
       estimatedTimeMinutes: 1,
       startingLocationCoordinates: 1,
     }
@@ -38,7 +55,7 @@ const getGamesById = async (req: Request, res: Response) => {
         description: 1,
         author: 1,
         rating: 1,
-        gameImageUrl: 1,
+        gameImageURL: 1,
         estimatedTimeMinutes: 1,
         startingLocationCoordinates: 1,
       }
@@ -85,4 +102,5 @@ module.exports = {
   getGameModule,
   getGameForEditor,
   getGame,
+  getGameByUId
 };

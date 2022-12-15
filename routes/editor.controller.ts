@@ -4,7 +4,8 @@ import multer from "multer";
 import mongoose, { isObjectIdOrHexString, isValidObjectId } from "mongoose";
 const ObjectID = require("mongodb").ObjectId;
 
-const postGame = async (req: Request, res: Response) => {
+const createGame = async (req: Request, res: Response) => {
+  console.log(req.body)
   let {
     _id,
     isPublished,
@@ -36,7 +37,7 @@ const postGame = async (req: Request, res: Response) => {
       startingLocationCoordinates,
     });
     const save = await newGame.save();
-    res.status(201).json({ success: true, data: save});
+    res.status(201).send(save);
   } catch (err) {
     res.status(401).send(err);
   }
@@ -81,7 +82,7 @@ const deleteGame = async (req: Request, res: Response) => {
 }
 
 module.exports = {
-  postGame,
+  createGame,
   editGame,
   deleteGame
 };
