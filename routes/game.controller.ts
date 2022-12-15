@@ -18,7 +18,7 @@ const getPublicGames = async (req: Request, res: Response) => {
       description: 1,
       author: 1,
       rating: 1,
-      image: 1,
+      gameImageUrl: 1,
       estimatedTimeMinutes: 1,
       startingLocationCoordinates: 1,
     }
@@ -38,7 +38,7 @@ const getGamesById = async (req: Request, res: Response) => {
         description: 1,
         author: 1,
         rating: 1,
-        image: 1,
+        gameImageUrl: 1,
         estimatedTimeMinutes: 1,
         startingLocationCoordinates: 1,
       }
@@ -78,17 +78,6 @@ const getGameModule = async (req: Request, res: Response) => {
   }
 };
 
-//post request
-const Storage = multer.diskStorage({
-  destination: "uploads",
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
-});
-
-const upload = multer({
-  storage: Storage,
-}).single("testImage");
 
 module.exports = {
   getPublicGames,
