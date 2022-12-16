@@ -7,12 +7,15 @@ const ObjectID = require("mongodb").ObjectId;
 //hi
 //get request
 const getGame = async (req: Request, res: Response) => {
+  console.log("getGame")
   const getResult = await GameSchema.find({});
   res.status(200).send(getResult);
 };
 
 const getGameByUId = async (req: Request, res: Response) => {
+  console.log("getGameByUId")
   const uId = req.params.uId;
+  console.log(uId)
   const allGamesFromUId = await GameSchema.find(
     { uId: uId },
     {
@@ -29,9 +32,10 @@ const getGameByUId = async (req: Request, res: Response) => {
 
 
 const getPublicGames = async (req: Request, res: Response) => {
+  console.log("getPublicGames")
   try {
     const getResult = await GameSchema.find(
-      { isPublished: "true", isPrivate: "false" },
+      { isPublished: "true", isPrivate: false },
       {
         titleOfGame: 1,
         description: 1,
@@ -49,11 +53,11 @@ const getPublicGames = async (req: Request, res: Response) => {
 };
 
 const getGamesById = async (req: Request, res: Response) => {
-  const id = req.query._id;
+  const id = req.params._id;
+  console.log("get games by id");
   try {
-    console.log("this is running");
     const getResult = await GameSchema.find(
-      { _id: id, isPublished: "true", isPrivate: "false" },
+      { _id: id, isPublished: "true", isPrivate: false },
       {
         isPublished: 1,
         titleOfGame: 1,
@@ -73,7 +77,7 @@ const getGamesById = async (req: Request, res: Response) => {
 };
 const getGameForEditor = async (req: Request, res: Response) => {
   const id = req.params._id;
-  console.log(id)
+  console.log('getGamesForEditor')
   try {
     const getResult = await GameSchema.find({ _id: id });
     console.log(getResult)
@@ -85,6 +89,7 @@ const getGameForEditor = async (req: Request, res: Response) => {
 };
 
 const getGameModule = async (req: Request, res: Response) => {
+  console.log("getGameModule")
   const id = req.params._id;
   const index: number = parseInt(req.query.index as string);
     try {
@@ -92,7 +97,6 @@ const getGameModule = async (req: Request, res: Response) => {
         { _id: id },
         { gameModules: 1 }
        ).then((data) => data[0]["gameModules"]);
-       console.log(getResult)
         res.status(200).send(getResult[index]);
     } catch (err) {
       res.status(401).send(err);

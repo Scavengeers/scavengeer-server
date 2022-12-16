@@ -30,8 +30,8 @@ const setupServer: Function = () => {
   app.get("/test", getGame);
   app.get("/", getPublicGames);
   app.get("/:_id", getGamesById);
-  app.get("/editor/:uId?", getGameByUId);
-  app.get("/editor/:_id", getGameForEditor);
+  app.get("/editor/:uId", getGameByUId);
+  app.get("/editor/:_id/edit", getGameForEditor);
   app.get("/game/:_id/:index?", getGameModule);
 
   //mongoose connection
