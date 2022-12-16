@@ -26,11 +26,11 @@ const setupServer: Function = () => {
 
   app.patch("/editor/:_id", editGame);
   app.post("/editor", createGame);
-  app.delete("/profile/:_id", deleteGame);
+  app.delete("/editor/:_id", deleteGame);
   app.get("/test", getGame);
   app.get("/", getPublicGames);
-  app.get("/:_id?", getGamesById);
-  app.get("/:uId?", getGameByUId);
+  app.get("/:_id", getGamesById);
+  app.get("/:uId", getGameByUId);
   app.get("/editor/:_id", getGameForEditor);
   app.get("/game/:_id/:index?", getGameModule);
 

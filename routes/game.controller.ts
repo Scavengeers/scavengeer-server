@@ -23,24 +23,29 @@ const getGameByUId = async (req: Request, res: Response) => {
       dateUpdated: 1,
     }
   )
+  console.log(allGamesFromUId)
   res.status(200).send(allGamesFromUId);
 };
 
 
 const getPublicGames = async (req: Request, res: Response) => {
-  const getResult = await GameSchema.find(
-    { isPublished: "true", isPrivate: "false" },
-    {
-      titleOfGame: 1,
-      description: 1,
-      author: 1,
-      rating: 1,
-      gameImageURL: 1,
-      estimatedTimeMinutes: 1,
-      startingLocationCoordinates: 1,
-    }
-  );
-  res.status(200).send(getResult);
+  try {
+    const getResult = await GameSchema.find(
+      { isPublished: "true", isPrivate: "false" },
+      {
+        titleOfGame: 1,
+        description: 1,
+        author: 1,
+        rating: 1,
+        gameImageURL: 1,
+        estimatedTimeMinutes: 1,
+        startingLocationCoordinates: 1,
+      }
+    );
+    res.status(200).send(getResult);
+  } catch(err) {
+    res.send(err)
+  }
 };
 
 const getGamesById = async (req: Request, res: Response) => {
@@ -82,16 +87,15 @@ const getGameForEditor = async (req: Request, res: Response) => {
 const getGameModule = async (req: Request, res: Response) => {
   const id = req.params._id;
   const index: number = parseInt(req.query.index as string);
-  if (index) {
     try {
       const getResult = await GameSchema.find(
         { _id: id },
         { gameModules: 1 }
-      ).then((data) => data[0]["gameModules"]);
-      res.status(200).send(getResult[index]);
+       ).then((data) => data[0]["gameModules"]);
+       console.log(getResult)
+        res.status(200).send(getResult[index]);
     } catch (err) {
       res.status(401).send(err);
-    }
   }
 };
 
