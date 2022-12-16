@@ -10,20 +10,42 @@ const getGame = async (req: Request, res: Response) => {
   const getResult = await GameSchema.find({});
   res.status(200).send(getResult);
 };
-const getPublicGames = async (req: Request, res: Response) => {
-  const getResult = await GameSchema.find(
-    { isPublished: "true", isPrivate: "false" },
+
+const getGameByUId = async (req: Request, res: Response) => {
+  const uId = req.params.uId;
+  const allGamesFromUId = await GameSchema.find(
+    { uId: uId },
     {
       titleOfGame: 1,
-      description: 1,
-      author: 1,
-      rating: 1,
-      image: 1,
-      estimatedTimeMinutes: 1,
-      startingLocationCoordinates: 1,
+      isPrivate: 1,
+      isPublished: 1,
+      dateCreated: 1,
+      dateUpdated: 1,
     }
-  );
-  res.status(200).send(getResult);
+  )
+  console.log(allGamesFromUId)
+  res.status(200).send(allGamesFromUId);
+};
+
+
+const getPublicGames = async (req: Request, res: Response) => {
+  try {
+    const getResult = await GameSchema.find(
+      { isPublished: "true", isPrivate: "false" },
+      {
+        titleOfGame: 1,
+        description: 1,
+        author: 1,
+        rating: 1,
+        gameImageURL: 1,
+        estimatedTimeMinutes: 1,
+        startingLocationCoordinates: 1,
+      }
+    );
+    res.status(200).send(getResult);
+  } catch(err) {
+    res.send(err)
+  }
 };
 
 const getGamesById = async (req: Request, res: Response) => {
@@ -38,7 +60,7 @@ const getGamesById = async (req: Request, res: Response) => {
         description: 1,
         author: 1,
         rating: 1,
-        image: 1,
+        gameImageURL: 1,
         estimatedTimeMinutes: 1,
         startingLocationCoordinates: 1,
       }
@@ -65,30 +87,18 @@ const getGameForEditor = async (req: Request, res: Response) => {
 const getGameModule = async (req: Request, res: Response) => {
   const id = req.params._id;
   const index: number = parseInt(req.query.index as string);
-  if (index) {
     try {
       const getResult = await GameSchema.find(
         { _id: id },
         { gameModules: 1 }
-      ).then((data) => data[0]["gameModules"]);
-      res.status(200).send(getResult[index]);
+       ).then((data) => data[0]["gameModules"]);
+       console.log(getResult)
+        res.status(200).send(getResult[index]);
     } catch (err) {
       res.status(401).send(err);
-    }
   }
 };
 
-//post request
-const Storage = multer.diskStorage({
-  destination: "uploads",
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
-});
-
-const upload = multer({
-  storage: Storage,
-}).single("testImage");
 
 module.exports = {
   getPublicGames,
@@ -96,4 +106,5 @@ module.exports = {
   getGameModule,
   getGameForEditor,
   getGame,
+  getGameByUId
 };
