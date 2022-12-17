@@ -66,7 +66,9 @@ const editGame = async (req: Request, res: Response) => {
 };
 
 const deleteGame = async (req: Request, res: Response) => {
+  console.log(req.params._id)
   const gameToDelete = await GameSchema.findById(req.params._id);
+  console.log(gameToDelete)
 
   if(!gameToDelete) return res.status(500).send("Not a valid document id");
 

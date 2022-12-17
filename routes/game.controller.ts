@@ -54,6 +54,7 @@ const getPublicGames = async (req: Request, res: Response) => {
 };
 
 const getGamesById = async (req: Request, res: Response) => {
+  console.log('this is running')
   const id = req.params._id;
   try {
     const getResult = await GameSchema.find(
