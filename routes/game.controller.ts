@@ -19,6 +19,7 @@ const getGameByUId = async (req: Request, res: Response) => {
   const allGamesFromUId = await GameSchema.find(
     { uId: uId },
     {
+      _id: 1,
       titleOfGame: 1,
       isPrivate: 1,
       isPublished: 1,
@@ -35,7 +36,7 @@ const getPublicGames = async (req: Request, res: Response) => {
   console.log("getPublicGames")
   try {
     const getResult = await GameSchema.find(
-      { isPublished: "true", isPrivate: false },
+      { isPublished: true, isPrivate: false },
       {
         titleOfGame: 1,
         description: 1,
@@ -54,10 +55,9 @@ const getPublicGames = async (req: Request, res: Response) => {
 
 const getGamesById = async (req: Request, res: Response) => {
   const id = req.params._id;
-  console.log("get games by id");
   try {
     const getResult = await GameSchema.find(
-      { _id: id, isPublished: "true", isPrivate: false },
+      { _id: id, isPublished: true, isPrivate: false },
       {
         isPublished: 1,
         titleOfGame: 1,

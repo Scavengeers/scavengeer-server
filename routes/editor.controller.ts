@@ -46,6 +46,7 @@ const createGame = async (req: Request, res: Response) => {
 //patch request
 const editGame = async (req: Request, res: Response) => {
   const updates = req.body;
+  console.log(typeof updates)
   const gameData = await GameSchema.findById(req.params._id)
 
   if(!gameData) return res.status(404).send("The game does not exist");

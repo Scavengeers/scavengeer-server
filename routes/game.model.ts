@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const GameSchema = new Schema({
   _id: String,
   isPublished: {
-    type: String,
+    type: Boolean,
     required: true,
   },
   isPrivate: Boolean,
