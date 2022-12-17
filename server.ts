@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import multer from "multer";
+import GameSchema from "./routes/game.model";
 const {
   getGamesById,
   getGameModule,
@@ -23,6 +24,12 @@ const setupServer: Function = () => {
   //middlewares
   app.use(cors());
   app.use(express.json());
+  //🔥Becareful with this function(delete all data from mongo db)
+  const deleteAll = async (req: Request, res: Response) => {
+    await GameSchema.deleteMany({ _id : { $ne: "1" } } );
+    res.status(200).send("deletedEverything");
+  };
+  app.delete("/delete", deleteAll)
 
   app.patch("/editor/:_id", editGame);
   app.post("/editor", createGame);

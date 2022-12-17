@@ -46,6 +46,7 @@ const createGame = async (req: Request, res: Response) => {
 //patch request
 const editGame = async (req: Request, res: Response) => {
   const updates = req.body;
+  console.log(typeof updates)
   const gameData = await GameSchema.findById(req.params._id)
 
   if(!gameData) return res.status(404).send("The game does not exist");
@@ -65,7 +66,9 @@ const editGame = async (req: Request, res: Response) => {
 };
 
 const deleteGame = async (req: Request, res: Response) => {
+  console.log(req.params._id)
   const gameToDelete = await GameSchema.findById(req.params._id);
+  console.log(gameToDelete)
 
   if(!gameToDelete) return res.status(500).send("Not a valid document id");
 
