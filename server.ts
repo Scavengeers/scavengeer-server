@@ -14,6 +14,7 @@ const {
   
 } = require("./routes/game.controller");
 const { editGame, createGame, deleteGame } = require("./routes/editor.controller");
+const { createSession, getSession } = require("./routes/session.controller")
 
 dotenv.config();
 const uri = process.env.MONGO_URI;
@@ -34,6 +35,7 @@ const setupServer: Function = () => {
   app.patch("/editor/:_id", editGame);
   app.post("/editor", createGame);
   app.delete("/editor/:_id", deleteGame);
+  app.get("/findsession/:_id/:uId", getSession)
   app.get("/test", getGame);
   app.get("/", getPublicGames);
   app.get("/:_id", getGamesById);
