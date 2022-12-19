@@ -90,10 +90,10 @@ const getGameForEditor = async (req: Request, res: Response) => {
 };
 
 const getGameModule = async (req: Request, res: Response) => {
-  console.log("hello world!!!!!")
+  console.log("hey, I ran")
   const id = req.params._id;
   const index: number = parseInt(req.query.index as string);
-  console.log(index)
+  console.log('👻', index)
     try {
       const getResult = await GameSchema.find(
         { _id: id },

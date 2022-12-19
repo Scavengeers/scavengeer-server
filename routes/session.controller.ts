@@ -41,11 +41,17 @@ const getSession = async (req: Request, res: Response) => {
                 isCompleted: false,
             })
             const saveSession = await newSession.save()
-            console.log('create new session😎')
             res.send(saveSession).status(200);
         } else if(session) {
-            console.log('🫡got session')
-            res.send(session[0]).status(201)
+            if(session[0].isCompleted === true) {
+                session[0].gameModulesIndex = 0
+                session[0].isCompleted = false;
+                console.log(session[0].gameModulesIndex)
+                console.log(session[0].isCompleted)
+                res.send(session[0]).status(201)
+            } else{
+                res.send(session[0]).status(201)
+            }
         }
     } catch(error) {
         res.send(error).status(500)
