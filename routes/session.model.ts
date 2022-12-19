@@ -6,7 +6,6 @@ const sessionDocument = new Schema({
   _id: String,
   uId: String,
   gameId: String,
-  isFinished: Boolean,
   gameModulesIndex: Number,
   isCompleted: Boolean,
   timeStamp: { type: Date, default: Date.now }

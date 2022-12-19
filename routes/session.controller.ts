@@ -29,6 +29,7 @@ const getSession = async (req: Request, res: Response) => {
     const gameId = req.params._id;
     const uId = req.params.uId;
     const session = await sessionDocument.find({gameId: gameId, uId: uId});
+    console.log(session)
     try {
         if(session[0] === undefined) {
             const newSession = new sessionDocument({
@@ -51,7 +52,24 @@ const getSession = async (req: Request, res: Response) => {
     }
 }
 
+const updateSession = async (req: Request, res: Response) => {
+    const updates = req.body;
+    const gameData = await sessionDocument.find({gameId: req.params.gameId, uId: req.params.uId});
+    if(!gameData) return res.status(404).send("The game does not exist");
+  
+    try {
+      const updatedTable = await sessionDocument.updateOne(
+        {gameId: req.params.gameId, uId: req.params.uId},
+        { $set: updates }
+      ).then((result) => {
+        res.status(200).json(result);
+      });
+    } catch (err) {
+      res.status(401).send(err);
+    }
+  };
 module.exports = {
     createSession,
-    getSession
+    getSession,
+    updateSession
 }
