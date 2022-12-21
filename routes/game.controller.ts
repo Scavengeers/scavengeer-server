@@ -7,15 +7,12 @@ const ObjectID = require("mongodb").ObjectId;
 //hi
 //get request
 const getGame = async (req: Request, res: Response) => {
-  console.log("getGame")
   const getResult = await GameSchema.find({});
   res.status(200).send(getResult);
 };
 
 const getGameByUId = async (req: Request, res: Response) => {
-  console.log("getGameByUId")
   const uId = req.params.uId;
-  console.log(uId)
   const allGamesFromUId = await GameSchema.find(
     { uId: uId },
     {
@@ -27,13 +24,11 @@ const getGameByUId = async (req: Request, res: Response) => {
       dateUpdated: 1,
     }
   )
-  console.log(allGamesFromUId)
   res.status(200).send(allGamesFromUId);
 };
 
 
 const getPublicGames = async (req: Request, res: Response) => {
-  console.log("getPublicGames")
   try {
     const getResult = await GameSchema.find(
       { isPublished: true, isPrivate: false },
@@ -54,7 +49,6 @@ const getPublicGames = async (req: Request, res: Response) => {
 };
 
 const getGamesById = async (req: Request, res: Response) => {
-  console.log('this is running')
   const id = req.params._id;
   try {
     const getResult = await GameSchema.find(
@@ -74,11 +68,10 @@ const getGamesById = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(400).send(err);
   }
-  //getResult.isPublished;
 };
+
 const getGameForEditor = async (req: Request, res: Response) => {
   const id = req.params._id;
-  console.log('getGamesForEditor')
   try {
     const getResult = await GameSchema.find({ _id: id });
     console.log(getResult)
@@ -86,14 +79,11 @@ const getGameForEditor = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(400).send(err);
   }
-  //getResult.isPublished;
 };
 
 const getGameModule = async (req: Request, res: Response) => {
-  console.log("hey, I ran")
   const id = req.params._id;
   const index: number = parseInt(req.query.index as string);
-  console.log('👻', index)
     try {
       const getResult = await GameSchema.find(
         { _id: id },

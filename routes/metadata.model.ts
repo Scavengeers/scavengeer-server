@@ -10,5 +10,4 @@ const MetadataSchema = new Schema({
   device: String,
 });
 
-export default mongoose.models.MetadataSchema ||
-  mongoose.model("MetadataSchema", MetadataSchema);
+export default mongoose.models.MetadataSchema || mongoose.model("MetadataSchema", MetadataSchema);

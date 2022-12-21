@@ -49,5 +49,4 @@ const GameSchema = new Schema({
   dateUpdated: { type: Date, default: Date.now },
 });
 
-export default mongoose.models.GameSchema ||
-  mongoose.model("GameSchema", GameSchema);
+export default mongoose.models.GameSchema || mongoose.model("GameSchema", GameSchema);
