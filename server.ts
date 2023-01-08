@@ -2,8 +2,8 @@ import express, { Express, Request, Response } from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-import multer from "multer";
-import GameSchema from "./routes/game.model";
+const { editGame, createGame, deleteGame, editVisibility } = require("./routes/editor.controller");
+const { createSession, getSession, updateSession } = require("./routes/session.controller")
 const {
   getGamesById,
   getGameModule,
@@ -11,10 +11,7 @@ const {
   getGameForEditor,
   getGame,
   getGameByUId
-  
 } = require("./routes/game.controller");
-const { editGame, createGame, deleteGame } = require("./routes/editor.controller");
-const { createSession, getSession, updateSession } = require("./routes/session.controller")
 
 dotenv.config();
 const uri = process.env.MONGO_URI;
@@ -25,12 +22,6 @@ const setupServer: Function = () => {
   //middlewares
   app.use(cors());
   app.use(express.json());
-  //🔥Becareful with this function(delete all data from mongo db)
-  const deleteAll = async (req: Request, res: Response) => {
-    await GameSchema.deleteMany({ _id : { $ne: "1" } } );
-    res.status(200).send("deletedEverything");
-  };
-  app.delete("/delete", deleteAll)
 
   app.patch("/editor/:_id", editGame);
   app.patch("/updateSession/:gameId/:uId", updateSession)
@@ -51,10 +42,6 @@ const setupServer: Function = () => {
   connection.once("open", () => {
     console.log("Hello from mongoDB");
   });
-
-  //post request
-  const Storage = multer.memoryStorage();
-  const upload = multer({ storage: Storage });
 
   return app;
 };

@@ -4,8 +4,6 @@ import { SessionTable } from "./session.constructor";
 import { v4 as uuidv4 } from 'uuid';
 import { Session } from "inspector";
 
-//session table should keep data of the player's project.
-
 //post request
 const createSession = async (req: Request, res: Response) => {
     let {uSessionId, gameId, uId, isFinished,gameModuleIndex, isCompleted } = req.body;
@@ -29,7 +27,6 @@ const getSession = async (req: Request, res: Response) => {
     const gameId = req.params._id;
     const uId = req.params.uId;
     const session = await sessionDocument.find({gameId: gameId, uId: uId});
-    console.log(session)
     try {
         if(session[0] === undefined) {
             const newSession = new sessionDocument({
@@ -41,11 +38,17 @@ const getSession = async (req: Request, res: Response) => {
                 isCompleted: false,
             })
             const saveSession = await newSession.save()
-            console.log('create new session😎')
             res.send(saveSession).status(200);
         } else if(session) {
-            console.log('🫡got session')
-            res.send(session[0]).status(201)
+            if(session[0].isCompleted === true) {
+                session[0].gameModulesIndex = 0
+                session[0].isCompleted = false;
+                console.log(session[0].gameModulesIndex)
+                console.log(session[0].isCompleted)
+                res.send(session[0]).status(201)
+            } else{
+                res.send(session[0]).status(201)
+            }
         }
     } catch(error) {
         res.send(error).status(500)
@@ -55,6 +58,7 @@ const getSession = async (req: Request, res: Response) => {
 const updateSession = async (req: Request, res: Response) => {
     const updates = req.body;
     const gameData = await sessionDocument.find({gameId: req.params.gameId, uId: req.params.uId});
+    
     if(!gameData) return res.status(404).send("The game does not exist");
   
     try {
@@ -68,6 +72,7 @@ const updateSession = async (req: Request, res: Response) => {
       res.status(401).send(err);
     }
   };
+
 module.exports = {
     createSession,
     getSession,

@@ -11,5 +11,4 @@ const sessionDocument = new Schema({
   timeStamp: { type: Date, default: Date.now }
 });
 
-export default mongoose.models.sessionDocument ||
-  mongoose.model("session", sessionDocument);
+export default mongoose.models.sessionDocument || mongoose.model("session", sessionDocument);
